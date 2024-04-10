@@ -44,10 +44,21 @@ export class BackendServiceService {
   }
 
 
-  getTokendata(data:any){
-    console.log(data.userId);
-    this.userId = data.userId
-    return this.userId
+
+
+
+
+
+  // admin
+
+
+
+  getAllUser(){
+    return this.http.get(`${this.apiKey}/userData`)
+  }
+
+  deleteUser(userId: string): Observable<any> {
+    return this.http.delete(`${this.apiKey}/deleteUser/${userId}`);
   }
 
 
@@ -67,6 +78,12 @@ export class BackendServiceService {
 
 
 
+
+  getTokendata(data:any){
+    console.log(data.userId);
+    this.userId = data.userId
+    return this.userId
+  }
 
 
 
@@ -91,7 +108,7 @@ export class BackendServiceService {
     if (!token) return false; 
 
     const decodedToken: any = jwtDecode(token);
-    console.log(JSON.stringify(decodedToken));
+    //console.log(JSON.stringify(decodedToken));
     
     return decodedToken.isAdmin === true; 
   }

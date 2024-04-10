@@ -15,7 +15,7 @@ router.get('/user-profile/:userId',userController.imagedisplay)
 //admin
 
 router.get('/userData',adminController.getAllUser)
-
+router.delete('/deleteUser/:userId',adminController.DeleteUser)
 export default router
 
 

@@ -3,10 +3,13 @@ import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
-import { provideStore } from '@ngrx/store';
+import { StoreModule, provideStore } from '@ngrx/store';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { provideToastr } from 'ngx-toastr';
 import { provideAnimations } from '@angular/platform-browser/animations';
+import { reducers } from './store';
+import { provideEffects } from '@ngrx/effects';
+import { UserEffects } from './store/userData/user.effect';
 
 export const appConfig: ApplicationConfig = {
 
@@ -16,7 +19,6 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(),
     provideStore(), provideHttpClient(withFetch()), 
     provideToastr({
-
       closeButton: true,
       tapToDismiss: true,
       newestOnTop: true,
@@ -24,8 +26,9 @@ export const appConfig: ApplicationConfig = {
       toastClass: 'ngx-toastr',
       positionClass: 'toast-top-right',
       preventDuplicates: true,
-
-
-    })
-    , provideAnimations()]
+    }),
+    provideStore(reducers),
+    provideEffects([UserEffects]),
+    provideAnimations()
+  ]
 };
