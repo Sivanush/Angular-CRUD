@@ -5,6 +5,7 @@ import { HomeComponent } from './components/user/home/home.component';
 import { AuthService } from './service/auth/auth.service';
 import { RedirectAuthService } from './service/auth/redirect-auth.service';
 import { UserListComponent } from './components/admin/user-list/user-list.component';
+import { AdminAuthService } from './service/adminAuth/admin-auth.service';
 
 
 export const routes: Routes = [
@@ -25,7 +26,8 @@ export const routes: Routes = [
     },
     {
         path:'users',
-        component:UserListComponent
+        component:UserListComponent,
+        canActivate:[AdminAuthService]
     },
     {
         path:'**',

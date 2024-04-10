@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { HttpParams } from '@angular/common/http';
+import { jwtDecode } from 'jwt-decode';
 
 
 @Injectable({
@@ -85,8 +86,14 @@ export class BackendServiceService {
 
 
 
-  isAdmin() {
-    throw new Error('Method not implemented.');
+  isAdmin(): boolean {
+    const token = localStorage.getItem('token');
+    if (!token) return false; 
+
+    const decodedToken: any = jwtDecode(token);
+    console.log(JSON.stringify(decodedToken));
+    
+    return decodedToken.isAdmin === true; 
   }
 
 

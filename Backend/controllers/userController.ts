@@ -14,6 +14,7 @@ cloudinary.config({
 export const createUser = async (req: Request, res: Response): Promise<void> => {
     try {
 
+
         const { username, email, password } = req.body;
 
         const dbEmail = await User.findOne({ email: email })
@@ -22,6 +23,7 @@ export const createUser = async (req: Request, res: Response): Promise<void> => 
         if (dbEmail) {
             res.status(500).json({ message: "Email already exists!" });
         } else {
+            console.log('%%%%%%%%%%%%%%%%%%%%%%%%%%%55');
             const hashedPassword = await bcrypt.hash(password, 10);
 
             const newUser = new User({ username, email, password: hashedPassword });
@@ -49,13 +51,13 @@ export const login = async (req: Request, res: Response): Promise<void> => {
 
             if (passMatch) {
                 if (userData.isAdmin) {
-                   
-                    const token = jwt.sign({ email: userData.email, userId: userData._id }, 'mysecretkey', { expiresIn: "75h" });
-                    res.status(201).json({ userId: userData._id, email: userData.email, token: token, isAdmin: true });
+
+                    const token = jwt.sign({ email: userData.email, userId: userData._id, isAdmin: true }, 'mysecretkey', { expiresIn: "75h" });
+                    res.status(201).json({ userId: userData._id, email: userData.email, token: token, isAdmin: true, username: userData.username });
                 } else {
-                   
-                    const token = jwt.sign({ email: userData.email, userId: userData._id }, 'mysecretkey', { expiresIn: "75h" });
-                    res.status(201).json({ userId: userData._id, email: userData.email, token: token, isAdmin: false });
+
+                    const token = jwt.sign({ email: userData.email, userId: userData._id, isAdmin: false }, 'mysecretkey', { expiresIn: "75h" });
+                    res.status(201).json({ userId: userData._id, email: userData.email, token: token, isAdmin: false, username: userData.username });
                 }
             } else {
                 res.status(500).json({ message: "Incorrect Credentials!!!!" });

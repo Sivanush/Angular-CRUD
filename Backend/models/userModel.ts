@@ -20,7 +20,7 @@ const  userSchema = new mongoose.Schema({
       },
       image:{
         type:String,
-        default:'/image.png'
+        default:'https://res.cloudinary.com/dzarnizdl/image/upload/v1712649073/znsarfxjv97qkbsul2oa.jpg'
       }
 })
 

@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { RouterLink } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
 import { HeaderComponent } from '../../constants/header/header.component';
+
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -13,13 +14,9 @@ import { HeaderComponent } from '../../constants/header/header.component';
 })
 export class HomeComponent {
 
-
-
-
   selectedFile: File | undefined;
   imageUrl: string | undefined;
   userId: string | undefined | null
-
 
 
   constructor(private auth: BackendServiceService, private toster: ToastrService) { }
@@ -75,6 +72,19 @@ export class HomeComponent {
       }
     );
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }
 
