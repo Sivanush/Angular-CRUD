@@ -14,7 +14,7 @@ export class UserEffects {
       ofType(getUser),
       switchMap(()=>{
          return this.userService.getAllUser().pipe(
-            tap((data)=>console.log(data)),
+            tap((data:any)=>console.log(data)),
             map((res:any)=> getUserSucess({user:res})),
             catchError( (err) => of(getUserError({ error: err.message })))
           )

@@ -61,6 +61,11 @@ export class BackendServiceService {
     return this.http.delete(`${this.apiKey}/deleteUser/${userId}`);
   }
 
+  updateUser(userId: string, userData: any): Observable<any> {
+    const url = `${this.apiKey}/editUser/${userId}`;
+    return this.http.post(url, userData);
+  }
+
 
 
 

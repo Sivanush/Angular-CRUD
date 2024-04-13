@@ -1,10 +1,10 @@
 import express from 'express';
 import mongoose from "mongoose"
 import cors from "cors"
-
+import router from "./routes/route"
 const app = express()
 const port = 3000
-import router from "./routes/route"
+
 
 
 

@@ -2,12 +2,15 @@ import { Request, Response } from "express";
 import bcrypt from "bcrypt"
 import { User } from '../models/userModel'
 import jwt from 'jsonwebtoken'
-import path from 'path';
-import { UploadStream, v2 as cloudinary } from 'cloudinary';
+import { v2 as cloudinary } from 'cloudinary';
+import * as dotenv from 'dotenv';
+
+dotenv.config();
+
 cloudinary.config({
-    cloud_name: 'dzarnizdl',
-    api_key: '713631387324819',
-    api_secret: '4MDlDwHeBUAat2EIIgMplyiVYt4'
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
 
@@ -93,7 +96,7 @@ export const imagedisplay = async (req: Request, res: Response) => {
 export const profileUpload = async (req: Request, res: Response) => {
     try {
         const userId = req.query.userId
-        // console.log(userId);
+       
 
         if (req.file) {
             const filePath = req.file?.path;
@@ -101,9 +104,9 @@ export const profileUpload = async (req: Request, res: Response) => {
 
             const uploadOptions = {
                 transformation: {
-                    width: 300,  // Set the width of the cropped image
-                    height: 300, // Set the height of the cropped image
-                    crop: 'fill' // Specify the crop mode (e.g., fill, fit, etc.)
+                    width: 300,  
+                    height: 300, 
+                    crop: 'fill' 
                 }
             };
 

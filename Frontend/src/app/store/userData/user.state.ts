@@ -1,7 +1,7 @@
 import { User } from "./user.model";
 
 export interface UserState{
-    user:User[] | [],
+    user:any[] 
     error:string,
     loading:boolean,
     deletedIds: number[]
@@ -13,3 +13,8 @@ export const initialState:UserState={
     loading:false,
     deletedIds: []
 }
+
+export  interface initialState2 {
+    name:string,
+    price:number
+  }

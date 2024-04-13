@@ -3,6 +3,21 @@ import { initialState } from "./user.state";
 import { DeleteUser, DeleteUserError, DeleteUserSuccess, getUser, getUserError, getUserSucess } from "./user.action";
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 const userReducerHelper = createReducer(
   initialState,
   on(getUser,(state)=>{
@@ -13,6 +28,7 @@ const userReducerHelper = createReducer(
     }
   }),
   on(getUserSucess,(state,{user})=>{
+    console.log(user);
     return{
       ...state,
       user:user,
@@ -39,10 +55,11 @@ const userReducerHelper = createReducer(
   }),
 
   on(DeleteUserSuccess, (state, { userId }) => {
+    console.log(state.user);
     const updatedUsers = state.user.filter((user: any) => user._id.toString() !== userId); 
     return {
       ...state,
-      users: updatedUsers,
+      user: updatedUsers,
       loading:false
     };
   }),
@@ -54,7 +71,17 @@ const userReducerHelper = createReducer(
       loading:false
     };
   })
+
+
+  
+
+
+
 )
+
+
+
+
 
 export function userReducer(state:any, action:any) {
   return userReducerHelper(state, action);
