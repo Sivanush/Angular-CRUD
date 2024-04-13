@@ -14,6 +14,7 @@ cloudinary.config({
 });
 
 
+
 export const createUser = async (req: Request, res: Response): Promise<void> => {
     try {
 
@@ -96,8 +97,9 @@ export const imagedisplay = async (req: Request, res: Response) => {
 export const profileUpload = async (req: Request, res: Response) => {
     try {
         const userId = req.query.userId
-       
-
+        console.log(process.env.CLOUDINARY_API_KEY,'()()()()()()()()()()');
+        
+        
         if (req.file) {
             const filePath = req.file?.path;
 
@@ -116,6 +118,8 @@ export const profileUpload = async (req: Request, res: Response) => {
 
             const userData = await User.findById(userId)
             if (userData) {
+                console.log('5678u9i0o');
+                
                 userData.image = uploadedImage.secure_url;
                 await userData.save();
                 res.json({ imagePath: uploadedImage.secure_url });

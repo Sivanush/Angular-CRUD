@@ -8,7 +8,7 @@ import * as adminController from '../controllers/adminController'
 
 router.post('/createUser',userController.createUser)
 router.post('/userLogin',userController.login)
-router.post('/update-Profile-Picture',upload.single('image'),userController.profileUpload)
+router.post('/update-Profile-Picture/',upload.single('image'),userController.profileUpload)
 router.get('/user-profile/:userId',userController.imagedisplay)
 
 
