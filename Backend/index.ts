@@ -8,7 +8,10 @@ const port = 3000
 
 
 
-mongoose.connect('mongodb://localhost:27017/Angular')
+mongoose.connect('mongodb://localhost:27017/Angular').then((a)=>{
+    console.log('MongoDb connected ');
+    
+})
 
 
 app.use('/uploads', express.static('uploads'));

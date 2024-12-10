@@ -1,7 +1,7 @@
 import { User } from "./user.model";
 
 export interface UserState{
-    user:any[] 
+    user:User[] 
     error:string,
     loading:boolean,
     deletedIds: number[]

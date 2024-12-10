@@ -1,72 +1,132 @@
 <app-header></app-header>
 
-<div class="flex justify-center items-center mt-20">
-  <div class="card">
-    <!-- *ngIf with isLoading -->
-    <div *ngIf="isLoading" class="spinner-container">
-      <div class="spinner"></div>
+<div class="container mx-auto px-4 py-8 w-[1000px]">
+  <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+    <!-- Loading Spinner -->
+    <div *ngIf="isLoading" class="flex justify-center items-center h-64">
+      <div class="animate-spin rounded-full h-12 w-12 border-t-4 border-blue-500"></div>
     </div>
     
-    <div class="user-table">
-      <table>
-        <thead>
+    <!-- User Table -->
+    <div class="overflow-x-auto">
+      <table class="w-full">
+        <thead class="bg-gray-100 border-b">
           <tr>
-            <th>No.</th>
-            <th>Username</th>
-            <th>Email</th>
-            <th>Image</th>
-            <th>Edit</th>
-            <th>Delete</th>
+            <th class="p-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">No.</th>
+            <th class="p-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Username</th>
+            <th class="p-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+            <th class="p-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Image</th>
+            <th class="p-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
           </tr>
         </thead>
-        <tbody>
-          <tr *ngFor="let user of users; let i = index">
-            <td>{{ i + 1 }}</td>
-            <td>{{ user.username }}</td>
-            <td>{{ user.email }}</td>
-            <td><img [src]="user.image" alt="User Image"></td>
-            <td>
-              <button (click)="editUser(user)" class="edit-btn">Edit</button>
+        <tbody class="bg-white divide-y divide-gray-200">
+          <tr *ngFor="let user of users; let i = index" class="hover:bg-gray-50 transition-colors">
+            <td class="p-3 whitespace-nowrap">{{ i + 1 }}</td>
+            <td class="p-3 whitespace-nowrap">{{ user.username }}</td>
+            <td class="p-3 whitespace-nowrap">{{ user.email }}</td>
+            <td class="p-3">
+              <img 
+                [src]="user.image" 
+                alt="User Image" 
+                class="w-16 h-16 object-cover rounded-full"
+              >
             </td>
-            <td>
-              <button class="delete-btn" (click)="deleteUser(user._id)">Delete</button>
+            <td class="p-3 whitespace-nowrap">
+              <div class="flex space-x-2">
+                <button 
+                  (click)="editUser(user)" 
+                  class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 transition-colors"
+                >
+                  Edit
+                </button>
+                <button 
+                  (click)="deleteUser(user._id)" 
+                  class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition-colors"
+                >
+                  Delete
+                </button>
+              </div>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
-    
   </div>
 </div>
 
-
-
-<div class="card flex justify-content-center">
-  <p-dialog [(visible)]="visible">
-      <ng-template pTemplate="content">
-          <div  class="flex flex-column px-8 py-5 gap-4" style="border-radius: 12px; background-image: radial-gradient(circle at left top, var(--primary-400), var(--primary-700))">
-              <svg width="33" height="35" viewBox="0 0 33 35" fill="none" xmlns="http://www.w3.org/2000/svg" class="block mx-auto">
-                  <!-- SVG path content -->
-              </svg>
-              <!-- Form for editing user data -->
-              <div class="inline-flex flex-column gap-2">
-                  <label for="username" class="text-primary-50 font-semibold">Username</label>
-                  <input pInputText id="username" [(ngModel)]="editedUser.username" class="bg-white-alpha-20 border-none p-3 text-primary-50"/>
-              </div>
-              <div class="inline-flex flex-column gap-2">
-                  <label for="email" class="text-primary-50 font-semibold">Email</label>
-                  <input pInputText id="email" [(ngModel)]="editedUser.email" class="bg-white-alpha-20 border-none p-3 text-primary-50"/>
-              </div>
-              <div class="inline-flex flex-column gap-2">
-                  <label for="image" class="text-primary-50 font-semibold">Image URL</label>
-                  <input pInputText id="image"  [(ngModel)]="editedUser.image" class="bg-white-alpha-20 border-none p-3 text-primary-50"/>
-              </div>
-              <!-- Button to save changes -->
-              <div class="flex align-items-center gap-2">
-                  <p-button label="Save Changes" (click)="saveChanges()" styleClass="w-full text-primary-50 border-1 border-white-alpha-30 hover:bg-white-alpha-10" class="w-full"></p-button>
-                  <p-button label="Cancel" (click)="closeDialog()" styleClass="w-full text-primary-50 border-1 border-white-alpha-30 hover:bg-white-alpha-10" class="w-full"></p-button>
-              </div>
-          </div>
-      </ng-template>
-  </p-dialog>
+<!-- Modal Overlay and Container -->
+<div 
+  *ngIf="isModalOpen" 
+  class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+  (click)="closeModal()"
+>
+  <!-- Modal Content - Stop propagation to prevent closing when clicking inside -->
+  <div 
+    class="bg-white rounded-lg shadow-xl w-96 p-6"
+    (click)="$event.stopPropagation()"
+  >
+    <h2 class="text-2xl font-bold mb-4">Edit User</h2>
+    
+    <div class="space-y-4">
+      <div>
+        <label class="block mb-2 text-sm font-medium">Username</label>
+        <input 
+          type="text" 
+          [(ngModel)]="editedUser.username"
+          class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+      </div>
+      
+      <div>
+        <label class="block mb-2 text-sm font-medium">Email</label>
+        <input 
+          type="email" 
+          [(ngModel)]="editedUser.email"
+          class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+      </div>
+      
+      <div class="flex flex-col items-center">
+        <div class="mb-4">
+          <img 
+            [src]="imagePreview || editedUser.image" 
+            alt="Profile Preview" 
+            class="w-32 h-32 object-cover rounded-full border-4 border-blue-500"
+          >
+        </div>
+        
+        <label class="block">
+          <span class="sr-only">Choose profile photo</span>
+          <input 
+            type="file" 
+            (change)="onFileSelected($event)"
+            accept="image/*"
+            class="block w-full text-sm text-slate-500
+              file:mr-4 file:py-2 file:px-4
+              file:rounded-full file:border-0
+              file:text-sm file:font-semibold
+              file:bg-blue-50 file:text-blue-700
+              hover:file:bg-blue-100
+            "
+          />
+        </label>
+      </div>
+      
+      
+      <div class="flex justify-end space-x-2 mt-4">
+        <button 
+          (click)="closeModal()" 
+          class="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300"
+        >
+          Cancel
+        </button>
+        <button 
+          (click)="saveChanges()" 
+          class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+        >
+          {{ isSaving ? 'Saving...' : 'Save Changes'}}
+        </button>
+      </div>
+    </div>
+  </div>
 </div>

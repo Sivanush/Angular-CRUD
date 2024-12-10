@@ -17,6 +17,8 @@ router.get('/user-profile/:userId',userController.imagedisplay)
 router.get('/userData',adminController.getAllUser)
 router.delete('/deleteUser/:userId',adminController.DeleteUser)
 router.post('/editUser/:userId',adminController.editUser)
+router.post('/image-upload',upload.single('image'),adminController.imageUpload)
+
 
 export default router
 

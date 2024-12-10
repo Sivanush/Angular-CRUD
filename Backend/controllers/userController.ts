@@ -97,7 +97,6 @@ export const imagedisplay = async (req: Request, res: Response) => {
 export const profileUpload = async (req: Request, res: Response) => {
     try {
         const userId = req.query.userId
-        console.log(process.env.CLOUDINARY_API_KEY,'()()()()()()()()()()');
         
         
         if (req.file) {

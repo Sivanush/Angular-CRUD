@@ -49,6 +49,7 @@ export class BackendServiceService {
 
 
 
+
   // admin
 
 
@@ -64,6 +65,12 @@ export class BackendServiceService {
   updateUser(userId: string, userData: any): Observable<any> {
     const url = `${this.apiKey}/editUser/${userId}`;
     return this.http.post(url, userData);
+  }
+
+  
+  uploadImage(file: object):Observable<{url:string}>{
+    return this.http.post<{url:string}>(`${this.apiKey}/image-upload`, file);
+
   }
 
 
